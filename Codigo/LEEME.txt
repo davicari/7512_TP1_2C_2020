@@ -1,0 +1,8 @@
+#Requisitos#
+
+sympy 
+numpy
+
+Comando:
+pip install numpy
+pip install sympy
