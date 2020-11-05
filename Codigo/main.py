@@ -24,25 +24,51 @@ def f(k) :
 #a = -0.08 
 #b = -0.07
 
-x_ = np.arange(0,0.025,0.00001);
-
-
-y_ = []
-
-for i in x_:
-	y_.append(f(i))
-
+def biseccion(f,a,b,iteraciones):
+	xRaiz = 0
+	for k in range(iteraciones):
+		x = (a+b)/2
+		f_x = f(x)
+		if f_x*f(b) < 0:
+			a = x
+		elif f_x * f(a) < 0:
+			b = x
+		else:
+			break
+		xRaiz = x
+	return xRaiz	
 
 	
-a = 0.000000001;
-b = 0.1;
+a = 0.003;
+b = 0.005;
+iteraciones = 200
 
-iteraciones = 10
 
+
+bi_x = biseccion(f,a,b,iteraciones)
+print(bi_x,f(bi_x))
+
+"""
 kRaiz = 0
 
 for k in range(iteraciones):
     x = (a + b) / 2
+    f_x = f(x)
+    if f_x * f(b) < 0:
+        a = x
+		
+    if f_x * f(a) < 0:
+        b = x
+
+    kRaiz = x
+    print(k,x,f_x)
+""" 
+"""
+x = (a + b) / 2
+
+while( (b - a)*(b-a) > 0.00000000001 ): #pregunto hasta que sea indistinguible de 0
+    x = (a + b) / 2
+    iteraciones += 1	
     if f(x) * f(b) < 0:
         a = x
     elif f(x) * f(a) < 0:
@@ -50,8 +76,12 @@ for k in range(iteraciones):
     else:
         break
     kRaiz = x
-    print(k,a,b, x, f(x))
-
-print(kRaiz)
-plt.plot(x_,y_)
+"""
+	
+"""
+print(kRaiz,iteraciones)
+plt.plot(x_,y_,)
+plt.xlabel = 'F(x)'
+plt.ylabel = 'x'
 plt.show()
+"""
