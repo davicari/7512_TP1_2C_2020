@@ -15,38 +15,60 @@ t3 = 2010
 
 
 
+
 #def f(k):
 #    return (((p3 * sy.exp(-(k * t3))) - (p2 * sy.exp(-(k * t2)))) * (p1 - p2)) + ((p2 - p3) * ((p1 * sy.exp(-(k * t1))) - (p2 * sy.exp(-(k * t2)))))
 
-def f(k) :
-	return (p2 + ((p2*(p3-p1)*sy.exp(-k*t2))/(p1*sy.exp(-k*t1) - p3*sy.exp(-k*t3))) - p1 - ((p1*(p3-p1)*sy.exp(-k*t1))/(p1*sy.exp(-k*t1)-p3*sy.exp(-k*t3))))
+#def f(k) :
+#	return (p2 + ((p2*(p3-p1)*sy.exp(-k*t2))/(p1*sy.exp(-k*t1) - p3*sy.exp(-k*t3))) - p1 - ((p1*(p3-p1)*sy.exp(-k*t1))/(p1*sy.exp(-k*t1)-p3*sy.exp(-k*t3))))
+	
+	
+#def f(k):
+#	return (p2-p1)+(p3-p2)*(p2*sy.exp(-k*t2) - p1*sy.exp(-k*t1))/(p1*sy.exp(-k*t1) - p3*sy.exp(-k*t3))
+	
+	
+#def f(k):
+#	return (p2-p1)*(p1*sy.exp(-k*t1) - p3*sy.exp(-k*t3))+(p3-p2)*(p2*sy.exp(-k*t2) - p1*sy.exp(-k*t1))
+
+alpha = 1
+beta = (p2*p3 - p1*p2)/(p2*p1 - p1*p3)
+gamma =(p1*p3 - p2*p3) /(p2*p1 - p1*p3)
+print('alpha',alpha,'beta',beta,'gamma',gamma)
+def fun_k(k):
+	return 1 + beta*sy.exp(-k*(t2-t1)) + gamma*sy.exp(-k*(t3-t1))
+	
 	
 #a = -0.08 
 #b = -0.07
 
-def biseccion(f,a,b,iteraciones):
+def biseccion(f,a,b,n):
 	xRaiz = 0
-	for k in range(iteraciones):
-		x = (a+b)/2
+#	print(f,a,b,n)
+	for k in range(n):
+#		print(k)
+		x = (b+a)/2
 		f_x = f(x)
-		if f_x*f(b) < 0:
+		f_a = f(a)
+		f_b = f(b)
+#		print('x',x,'f_x',f_x,'f_a',f_a,'f_b',f_b)
+		if f_x*f_b<0:
 			a = x
-		elif f_x * f(a) < 0:
+#			print('a',a)
+		elif f_x*f_a<0:
 			b = x
-		else:
+#			print('b',b)
+		else: 
+#			print('break')
 			break
 		xRaiz = x
-	return xRaiz	
+		print(k,a,x,b)
+	return xRaiz
 
-	
-a = 0.003;
-b = 0.005;
-iteraciones = 200
+bi_x = biseccion(fun_k,-0.1,0,200)
+print(bi_x,fun_k(bi_x))
 
-
-
-bi_x = biseccion(f,a,b,iteraciones)
-print(bi_x,f(bi_x))
+k = sy.Symbol('k')
+sy.plot(1 + beta*sy.exp(-k*(t2-t1)) + gamma*sy.exp(-k*(t3-t1)),(k,-0.1,0.1))
 
 """
 kRaiz = 0
@@ -76,12 +98,22 @@ while( (b - a)*(b-a) > 0.00000000001 ): #pregunto hasta que sea indistinguible d
     else:
         break
     kRaiz = x
+	print(kRaiz,iteraciones)
 """
-	
-"""
-print(kRaiz,iteraciones)
-plt.plot(x_,y_,)
-plt.xlabel = 'F(x)'
-plt.ylabel = 'x'
+"""	
+# 100 linearly spaced numbers
+f_ = np.vectorize(f)
+x = np.linspace(-10,10,10000)
+y = f_(x)
+# setting the axes at the centre
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+ax.spines['left'].set_position('center')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.xaxis.set_ticks_position('bottom')
+ax.yaxis.set_ticks_position('left')
+plt.plot(x,y, 'r')
 plt.show()
 """
